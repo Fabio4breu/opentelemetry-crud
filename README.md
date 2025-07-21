@@ -107,6 +107,13 @@ Listar usuários
 
 curl http://localhost:8080/users
 
+### Testar geração de traces
+
+Após subir os containers, execute algumas requisições para gerar traces, por exemplo:
+
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"name":"Teste","email":"teste@exemplo.com"}' http://localhost:8080/users
+
 go.mod e go.sum
 Este projeto utiliza módulos Go para gerenciar as dependências. Os arquivos go.mod e go.sum estão na raiz do projeto.
 
