@@ -114,6 +114,26 @@ Para baixar as dependências, basta executar:
 
 go mod download
 
+Testando o Funcionamento
+
+🔹 MongoDB
+Para acessar o banco de dados MongoDB dentro do container:
+
+docker exec -it opentelemetry-crud-mongo-1 mongosh
+Com isso, você poderá visualizar os dados inseridos, como por exemplo:
+
+use opentelemetry
+db.products.find().pretty()
+
+🔹 OpenTelemetry Collector
+O Collector estará disponível nas portas 4317 (gRPC) e 4318 (HTTP). Para verificar se ele está recebendo traces corretamente, acesse o endpoint de status via HTTP:
+
+curl http://localhost:4318
+
+Você também pode inspecionar os logs do Collector:
+
+docker logs -f opentelemetry-crud-otel-collector-1
+
 
 Observabilidade e Traces
 A aplicação está instrumentada com OpenTelemetry para gerar traces HTTP e custom spans.
