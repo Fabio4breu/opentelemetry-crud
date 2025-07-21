@@ -31,21 +31,37 @@ O desafio consiste em:
 
 /
 ├── config/ # Configurações do MongoDB
+
 │ └── mongo.go
+
 ├── controllers/ # Handlers do CRUD
+
 │ └── user_controller.go
+
 ├── models/ # Modelos de dados
+
 │ └── user.go
+
 ├── routes/ # Definição das rotas HTTP
+
 │ └── routes.go
+
 ├── tracing/ # Setup do OpenTelemetry Tracer
+
 │ └── tracer.go
+
 ├── Dockerfile # Build da aplicação Go
+
 ├── docker-compose.yaml # Orquestração dos serviços
+
 ├── otel-collector-config.yaml # Config Collector OpenTelemetry
+
 ├── setup.sh # Script para preparar ambiente local
+
 ├── main.go # Entrypoint da aplicação
+
 └── README.md # Documentação do projeto (este arquivo)
+
 └── go.mod e go.sum - arquivos de dependências do Go
 
 
