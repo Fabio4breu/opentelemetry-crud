@@ -16,11 +16,14 @@ func CreateUser(c *gin.Context) {
 	var user models.User
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
 		return
 	}
 
 	collection := config.DB.Collection("users")
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+
+	// Usa o contexto da requisição para manter propagação de span
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
 	defer cancel()
 
 	res, err := collection.InsertOne(ctx, user)
@@ -33,7 +36,7 @@ func CreateUser(c *gin.Context) {
 }
 func GetUsers(c *gin.Context) {
 	collection := config.GetCollection("users")
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
 	defer cancel()
 
 	cursor, err := collection.Find(ctx, bson.D{}) // bson.D{} = filtro vazio (busca tudo)
@@ -65,7 +68,7 @@ func GetUserByID(c *gin.Context) {
 	}
 
 	collection := config.GetCollection("users")
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
 	defer cancel()
 
 	var user models.User
@@ -93,7 +96,7 @@ func UpdateUser(c *gin.Context) {
 	}
 
 	collection := config.GetCollection("users")
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
 	defer cancel()
 
 	update := bson.M{
@@ -126,7 +129,7 @@ func DeleteUser(c *gin.Context) {
 	}
 
 	collection := config.GetCollection("users")
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
 	defer cancel()
 
 	result, err := collection.DeleteOne(ctx, bson.M{"_id": objectID})
